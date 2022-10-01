@@ -11,10 +11,11 @@ public class UserDao implements IContracts{
     @Override
     public User getUserDetails(String username) {
         User user = new User();
+        Connection conn = H2DatabaseConnection.getConnectionToDatabase();
         try {
-            Connection conn = H2DatabaseConnection.getConnectionToDatabase();
-            PreparedStatement stmt = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
-            stmt.setString(1, username);
+            String sql = "SELECT * FROM user";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+//            stmt.setString(1, username);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 user.setId(rs.getInt("id"));
